@@ -14,6 +14,7 @@ public class EnemyFleet : MonoBehaviour
     [SerializeField] float bottomLimit;
 
     Level level;
+    Collider2D fleetCollider;
 
 
 
@@ -35,6 +36,8 @@ public class EnemyFleet : MonoBehaviour
         SetTheScreenBoundaries();
         InvokeRepeating("Move", 1f, moveSpeed);
 
+        fleetCollider = gameObject.GetComponent<Collider2D>();
+
     }
 
     // Update is called once per frame
@@ -45,58 +48,32 @@ public class EnemyFleet : MonoBehaviour
 
     private void Move()
     {
-        //print(enemies.Count);
 
-        float xEnemyPos;
-        float xEnemyRowPos = transform.position.x;
-        float yEnemyRowPos = transform.position.y;
-
-        //Store reference to last and first enemy in a row
-        Enemy firstEnemy = enemies[0];
-        Enemy lastEnemy = enemies[enemies.Count - 1];
-
-        if (yEnemyRowPos == bottomLimit || level.gameFinished)
+        if ((int)fleetCollider.bounds.max.x == (int)xMax)
         {
-           
-            CancelInvoke("Move");
-        }
-
-        //move row based and the current direction
-        if (!reverse)
-        {
-           xEnemyPos = lastEnemy.transform.position.x;
-           MoveForward(xEnemyRowPos);
-        
-        }
-        else
-        {
-            xEnemyPos = firstEnemy.transform.position.x;
-            MoveBackward(xEnemyRowPos);
-        }
-
-        //make decision if we need to go down and reverse.
-        if ((int)xEnemyPos == (int)xMax)
-        {
-
-            MoveDown(xEnemyRowPos);
-            
             reverse = true;
-        }else if ((int)xEnemyPos == (int)xMin)
-        { 
-            MoveDown(xEnemyRowPos);
+        }
+
+        if ((int)fleetCollider.bounds.max.x == (int)xMin)
+        {
             reverse = false;
         }
 
+        if ((int)fleetCollider.bounds.max.y == (int)bottomLimit)
+        {
+            CancelInvoke("Move");
+        }
 
+        if (reverse)
+        {
 
+            MoveBackward(fleetCollider.transform.position.x);
+        }
 
-       
-        
-        //float movePosX = transform.position.x + moveSpeed;
-        //float xPos = Mathf.Clamp(movePosX, xMin, xMax);
-
-
-        
+       if (!reverse)
+        {
+            MoveForward(fleetCollider.transform.position.x);
+        }
         
     }
 
