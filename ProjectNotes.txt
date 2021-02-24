@@ -1,0 +1,63 @@
+Player:
+	Move
+		Right or Left (horizontally)
+		Constant speed
+		Cannot move beyong left and right border
+	Shoot Bullet
+		Max: 1 bullet every second
+		Key: Space
+	
+	Receive Damage
+		3 HP
+		Animation on Hit
+	Get Killed
+		HP reaches 0
+	
+
+Enemy:
+	Different Types (at least 3 on first level)
+	Move
+		As a complete formation of aliens
+		Speed increases with each level
+		horizontally
+			From left border to the right.
+			When oposite border is reached, start moving to oposite. 
+		vertically 
+			Move 1 row below when reached opposite wall
+	Shoot Bullet
+		Random alien from formation
+		Up to 3 bullets a sec
+		Bullet Type depends on Enemy Type
+	Receive Damage
+		1 HP
+	Get Killed
+		HP reaches 0
+
+Obstacle:
+	Consists 10 destroyable parts		
+	Get Partially Destroyed
+ObstaclePart:
+	Receive Damage
+		4 HP
+		Part gets damaged
+	Get Killed
+		HP reaches 0
+		
+
+Bullet:
+	Different Types (2 types obersed)
+		Depends on Enemy Type
+	Move
+		Verticaly
+		Speed varies with Bullet Type
+	Hit
+		Collide with Objects
+		Dissapear on hit
+	Miss
+		Hit the bottom Area border
+
+Area:
+	Place enemies, player and obstacles
+	Place left and right border
+
+
