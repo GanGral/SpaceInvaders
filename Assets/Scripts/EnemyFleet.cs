@@ -21,6 +21,7 @@ public class EnemyFleet : MonoBehaviour
     //aux variables
     bool reverse = false;
     public bool allowFire = true;
+    float distCentBorder;
 
 
 
@@ -31,12 +32,14 @@ public class EnemyFleet : MonoBehaviour
     void Start()
     {
         Enemy[] enemyArray = gameObject.GetComponentsInChildren<Enemy>();
+        fleetCollider = gameObject.GetComponent<Collider2D>();
         enemies.AddRange(enemyArray);
         level = FindObjectOfType<Level>();
         SetTheScreenBoundaries();
         InvokeRepeating("Move", 1f, moveSpeed);
+        distCentBorder = Math.Abs(fleetCollider.transform.position.x - transform.position.x);
 
-        fleetCollider = gameObject.GetComponent<Collider2D>();
+        
 
     }
 
@@ -48,47 +51,76 @@ public class EnemyFleet : MonoBehaviour
 
     private void Move()
     {
-
-        if ((int)fleetCollider.bounds.max.x == (int)xMax)
-        {
-            reverse = true;
-        }
-
-        if ((int)fleetCollider.bounds.max.x == (int)xMin)
-        {
-            reverse = false;
-        }
-
+        
         if ((int)fleetCollider.bounds.max.y == (int)bottomLimit)
         {
+            print("Hitting bottom limit");
             CancelInvoke("Move");
+            return;
         }
 
         if (reverse)
         {
+            print("Moving backwards");
 
             MoveBackward(fleetCollider.transform.position.x);
+            //return;
         }
 
-       if (!reverse)
+        if (!reverse)
         {
+            print("Moving forward");
+
             MoveForward(fleetCollider.transform.position.x);
+           // return;
         }
+
+        CheckBoundariesAndMoveDown();
         
+
+
+
+
+        
+    }
+
+    private void CheckBoundariesAndMoveDown()
+    {
+        if (fleetCollider.bounds.max.x+padding >= xMax)
+        {
+            print("hit right border");
+
+            reverse = true;
+            MoveDown(fleetCollider.transform.position.x);
+
+        }
+        else if (fleetCollider.bounds.min.x+padding <= xMin)
+        {
+            print("hit left border");
+
+            reverse = false;
+            MoveDown(fleetCollider.transform.position.x);
+        }
     }
 
     private void MoveDown(float pos)
     {
-        transform.position = new Vector3(pos, transform.position.y - 1);
+        
+        print("Moving down");
+        float targetPosY = Mathf.Clamp(transform.position.y - 1, bottomLimit, 999);
+        transform.position = new Vector3(pos, targetPosY);
     }
 
     private void MoveForward(float pos)
     {
-        transform.position = new Vector3(pos + moveDistance, transform.position.y);
+        //we need to check here not to go beyong the limit
+        float targetPosX = Mathf.Clamp(pos+ distCentBorder + moveDistance, xMin, xMax);
+        transform.position = new Vector3(targetPosX, transform.position.y);
     }
     private void MoveBackward(float pos)
     {
-        transform.position = new Vector3(pos - moveDistance, transform.position.y);
+        float targetPosX = Mathf.Clamp(pos- distCentBorder - moveDistance, xMin, xMax);
+        transform.position = new Vector3(targetPosX, transform.position.y);
     }
 
     private void SetTheScreenBoundaries()

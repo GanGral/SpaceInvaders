@@ -876,37 +876,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1773145675 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5119361094437518992, guid: d31944ba9c83aca4381942916bb78689, type: 3}
-  m_PrefabInstance: {fileID: 4703167204495264750}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1773145676
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773145675}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 2.526731, y: -1.5048087}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 5.4695063, y: 4.458814}
-  m_EdgeRadius: 0
 --- !u!1 &1888326789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,13 +1124,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyFleet
       objectReference: {fileID: 0}
-    - target: {fileID: 5119361094437518992, guid: d31944ba9c83aca4381942916bb78689, type: 3}
-      propertyPath: m_Layer
-      value: 11
+    - target: {fileID: 6132076334577200898, guid: d31944ba9c83aca4381942916bb78689, type: 3}
+      propertyPath: padding
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6132076334577200898, guid: d31944ba9c83aca4381942916bb78689, type: 3}
       propertyPath: moveDistance
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d31944ba9c83aca4381942916bb78689, type: 3}
