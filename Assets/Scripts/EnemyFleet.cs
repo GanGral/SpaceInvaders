@@ -14,14 +14,14 @@ public class EnemyFleet : MonoBehaviour
     [SerializeField] float bottomLimit;
 
     Level level;
-    Collider2D fleetCollider;
+    Vector3 fleetSize;
 
 
 
     //aux variables
     bool reverse = false;
     public bool allowFire = true;
-    float distCentBorder;
+   // float distCentBorder;
 
 
 
@@ -31,15 +31,19 @@ public class EnemyFleet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //caching
         Enemy[] enemyArray = gameObject.GetComponentsInChildren<Enemy>();
-        fleetCollider = gameObject.GetComponent<Collider2D>();
-        enemies.AddRange(enemyArray);
+        fleetSize = gameObject.GetComponent<Collider2D>().bounds.size;
         level = FindObjectOfType<Level>();
-        SetTheScreenBoundaries();
-        InvokeRepeating("Move", 1f, moveSpeed);
-        distCentBorder = Math.Abs(fleetCollider.transform.position.x - transform.position.x);
 
-        
+        //setting up
+        enemies.AddRange(enemyArray);
+        SetTheScreenBoundaries();
+
+        //start moving
+        InvokeRepeating("Move", 1f, moveSpeed);
+
+
 
     }
 
@@ -52,7 +56,7 @@ public class EnemyFleet : MonoBehaviour
     private void Move()
     {
         
-        if ((int)fleetCollider.bounds.max.y == (int)bottomLimit)
+        if (transform.position.y <= bottomLimit)
         {
             print("Hitting bottom limit");
             CancelInvoke("Move");
@@ -63,7 +67,7 @@ public class EnemyFleet : MonoBehaviour
         {
             print("Moving backwards");
 
-            MoveBackward(fleetCollider.transform.position.x);
+            MoveBackward();
             //return;
         }
 
@@ -71,7 +75,7 @@ public class EnemyFleet : MonoBehaviour
         {
             print("Moving forward");
 
-            MoveForward(fleetCollider.transform.position.x);
+            MoveForward();
            // return;
         }
 
@@ -86,41 +90,43 @@ public class EnemyFleet : MonoBehaviour
 
     private void CheckBoundariesAndMoveDown()
     {
-        if (fleetCollider.bounds.max.x+padding >= xMax)
+        if (transform.position.x >= xMax-fleetSize.x)
         {
             print("hit right border");
 
             reverse = true;
-            MoveDown(fleetCollider.transform.position.x);
+            MoveDown();
 
         }
-        else if (fleetCollider.bounds.min.x+padding <= xMin)
+        else if (transform.position.x <= xMin+fleetSize.x)
         {
             print("hit left border");
 
             reverse = false;
-            MoveDown(fleetCollider.transform.position.x);
+            MoveDown();
         }
     }
 
-    private void MoveDown(float pos)
+    private void MoveDown()
     {
         
         print("Moving down");
-        float targetPosY = Mathf.Clamp(transform.position.y - 1, bottomLimit, 999);
-        transform.position = new Vector3(pos, targetPosY);
+        float newPos = Mathf.Clamp(transform.position.y - moveDistance, bottomLimit+fleetSize.y,999);
+        transform.position = new Vector3(transform.position.x, newPos);
+
     }
 
-    private void MoveForward(float pos)
+    private void MoveForward()
     {
         //we need to check here not to go beyong the limit
-        float targetPosX = Mathf.Clamp(pos+ distCentBorder + moveDistance, xMin, xMax);
-        transform.position = new Vector3(targetPosX, transform.position.y);
+        float newPos = Mathf.Clamp(transform.position.x+moveDistance, xMin, xMax - fleetSize.x);
+        transform.position = new Vector3(newPos, transform.position.y);
+
     }
-    private void MoveBackward(float pos)
+    private void MoveBackward()
     {
-        float targetPosX = Mathf.Clamp(pos- distCentBorder - moveDistance, xMin, xMax);
-        transform.position = new Vector3(targetPosX, transform.position.y);
+        float newPos = Mathf.Clamp(transform.position.x - moveDistance, xMin + fleetSize.x, xMax);
+        transform.position = new Vector3(newPos, transform.position.y);
     }
 
     private void SetTheScreenBoundaries()
