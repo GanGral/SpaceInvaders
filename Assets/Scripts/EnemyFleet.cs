@@ -90,17 +90,17 @@ public class EnemyFleet : MonoBehaviour
 
     private void CheckBoundariesAndMoveDown()
     {
-        if (transform.position.x >= xMax-fleetSize.x)
+        if (transform.position.x+fleetSize.x >= xMax)
         {
-            print("hit right border");
+          //  print("hit right border");
 
             reverse = true;
             MoveDown();
 
         }
-        else if (transform.position.x <= xMin+fleetSize.x)
+        else if (transform.position.x*-1+fleetSize.x <= xMin)
         {
-            print("hit left border");
+            //print("hit left border");
 
             reverse = false;
             MoveDown();
@@ -110,8 +110,8 @@ public class EnemyFleet : MonoBehaviour
     private void MoveDown()
     {
         
-        print("Moving down");
-        float newPos = Mathf.Clamp(transform.position.y - moveDistance, bottomLimit+fleetSize.y,999);
+        //print("Moving down");
+        float newPos = Mathf.Clamp(transform.position.y - moveDistance, bottomLimit+fleetSize.y/2,999);
         transform.position = new Vector3(transform.position.x, newPos);
 
     }
@@ -120,12 +120,16 @@ public class EnemyFleet : MonoBehaviour
     {
         //we need to check here not to go beyong the limit
         float newPos = Mathf.Clamp(transform.position.x+moveDistance, xMin, xMax - fleetSize.x);
+        print(newPos);
         transform.position = new Vector3(newPos, transform.position.y);
+        print(transform.position.x);
+        
 
     }
     private void MoveBackward()
     {
-        float newPos = Mathf.Clamp(transform.position.x - moveDistance, xMin + fleetSize.x, xMax);
+        float newPos = Mathf.Clamp(transform.position.x - moveDistance, xMin + fleetSize.x/2, xMax);
+        newPos = (float)Math.Round(newPos, 1, MidpointRounding.AwayFromZero);
         transform.position = new Vector3(newPos, transform.position.y);
     }
 

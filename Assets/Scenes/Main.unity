@@ -1082,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1854245210011379624, guid: d31944ba9c83aca4381942916bb78689, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1854245210011379624, guid: d31944ba9c83aca4381942916bb78689, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1123,14 +1123,6 @@ PrefabInstance:
     - target: {fileID: 5119361094437518992, guid: d31944ba9c83aca4381942916bb78689, type: 3}
       propertyPath: m_Name
       value: EnemyFleet
-      objectReference: {fileID: 0}
-    - target: {fileID: 6132076334577200898, guid: d31944ba9c83aca4381942916bb78689, type: 3}
-      propertyPath: padding
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6132076334577200898, guid: d31944ba9c83aca4381942916bb78689, type: 3}
-      propertyPath: moveDistance
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d31944ba9c83aca4381942916bb78689, type: 3}
