@@ -90,7 +90,10 @@ public class EnemyFleet : MonoBehaviour
 
     private void CheckBoundariesAndMoveDown()
     {
-        if (transform.position.x+fleetSize.x >= xMax)
+        float checkPosForw = transform.position.x + fleetSize.x;
+        float checkPosBack = transform.position.x;
+
+        if (checkPosForw >= xMax)
         {
           //  print("hit right border");
 
@@ -98,7 +101,7 @@ public class EnemyFleet : MonoBehaviour
             MoveDown();
 
         }
-        else if (transform.position.x*-1+fleetSize.x <= xMin)
+        else if (reverse && checkPosBack <= xMin)
         {
             //print("hit left border");
 
@@ -128,7 +131,9 @@ public class EnemyFleet : MonoBehaviour
     }
     private void MoveBackward()
     {
-        float newPos = Mathf.Clamp(transform.position.x - moveDistance, xMin + fleetSize.x/2, xMax);
+        float lowerMin = xMin;
+        float newPos = transform.position.x - moveDistance;
+        newPos = Mathf.Clamp(newPos, lowerMin, xMax);
         newPos = (float)Math.Round(newPos, 1, MidpointRounding.AwayFromZero);
         transform.position = new Vector3(newPos, transform.position.y);
     }
